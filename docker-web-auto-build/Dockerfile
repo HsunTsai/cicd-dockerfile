@@ -11,7 +11,7 @@ WORKDIR /usr/local/tomcat
 RUN echo "git clone \$1 \$2 -b \$3" > buildCode.sh
 # 將resolve.conf複製出來 並增加8.8.8.8 再覆蓋回resolv.conf (因無法直接變動resolv.conf)
 RUN echo "cp /etc/resolv.conf /etc/resolv.conf.override" >> buildCode.sh
-RUN echo "sed -i '1i nameserver 8.8.8.8' resolv.conf.override" >> buildCode.sh
+RUN echo "sed -i '1i nameserver 8.8.8.8' /etc/resolv.conf.override" >> buildCode.sh
 RUN echo "cp /etc/resolv.conf.override /etc/resolv.conf" >> buildCode.sh
 RUN echo "cd \$2" >> buildCode.sh
 RUN echo "npm install --silent" >> buildCode.sh
