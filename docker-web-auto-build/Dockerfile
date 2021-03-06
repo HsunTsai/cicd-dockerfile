@@ -1,17 +1,17 @@
 FROM dlri093/tomcat8-node10
 
 # 強行修改DNS
-# WORKDIR /etc
-# RUN echo "nameserver 8.8.8.8" > resolv.conf.override
+WORKDIR /etc
+RUN echo "nameserver 8.8.8.8" > resolv.conf.override
 
 # 前往tomcate資料夾
 WORKDIR /usr/local/tomcat
 
 # 製作打包網頁的腳本
 RUN echo "git clone \$1 \$2 -b \$3" > buildCode.sh
-# 將resolve.conf複製出來 並增加8.8.8.8 再覆蓋回resolv.conf (因無法直接變動resolv.conf)
-RUN echo "cp /etc/resolv.conf /etc/resolv.conf.override" >> buildCode.sh
-RUN echo "sed -i '1i nameserver 8.8.8.8' /etc/resolv.conf.override" >> buildCode.sh
+# [備份] 將resolve.conf複製出來 並增加8.8.8.8 再覆蓋回resolv.conf (因無法直接變動resolv.conf)
+# RUN echo "cp /etc/resolv.conf /etc/resolv.conf.override" >> buildCode.sh
+# RUN echo "sed -i '1i nameserver 8.8.8.8' /etc/resolv.conf.override" >> buildCode.sh
 RUN echo "cp /etc/resolv.conf.override /etc/resolv.conf" >> buildCode.sh
 RUN echo "cd \$2" >> buildCode.sh
 RUN echo "npm install --silent" >> buildCode.sh
