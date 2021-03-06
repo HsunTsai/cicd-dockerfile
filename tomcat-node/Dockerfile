@@ -1,0 +1,12 @@
+FROM tomcat:8
+
+ENV NVM_DIR /usr/local/nvm
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+ENV NODE_VERSION v10.16.3
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
+
+ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
+
+# docker build -t dlri093/tomcat8-node10:latest -t dlri093/tomcat8-node10:0.0.1 .
+# docker push dlri093/tomcat8-node10
