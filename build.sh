@@ -27,9 +27,7 @@ echo $newVersion > version
 # 讀取該dockerfile的名字
 dockerfileName=$(<name)
 
+# 製作兩份tag 一份做為最新(latest) 一份做為版本備份
 docker build -t $dockerfileName:$newVersion -t $dockerfileName:latest .
-docker push $dockerfileName:$newVersion
 docker push $dockerfileName:latest
-
-# docker build -t dlri093/tomcat8-node10:$1 -t dlri093/tomcat8-node10:latest .
-# docker push dlri093/tomcat8-node10
+docker push $dockerfileName:$newVersion
