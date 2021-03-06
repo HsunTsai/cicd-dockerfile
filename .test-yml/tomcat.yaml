@@ -1,0 +1,31 @@
+# https://kubernetes.io/docs/tutorials/k8s201/
+# https://cheatsheet.dennyzhang.com/kubernetes-yaml-templates
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-deployment
+  namespace: website
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    field.cattle.io/creatorId: user-xcpzk
+    field.cattle.io/publicEndpoints: '[{"addresses":["192.168.0.14"],"port":32133,"protocol":"TCP","serviceName":"website:testweb-nodeport","allNodes":true}]'
+spec:
+  selector:
+    matchLabels:
+      app: tomcat
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+        - name: tomcat
+          image: dlri093/tomcat-testweb:2
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 8080
+              protocol: TCP
