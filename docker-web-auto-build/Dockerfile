@@ -15,7 +15,7 @@ RUN echo "git clone \$1 \$2 -b \$3" > buildCode.sh
 RUN echo "cp /etc/resolv.conf.override /etc/resolv.conf" >> buildCode.sh
 RUN echo "cd \$2" >> buildCode.sh
 RUN echo "npm install --silent" >> buildCode.sh
-RUN echo "\$4" >> buildCode.sh
+RUN echo "npm run deploy\$4" >> buildCode.sh
 RUN echo "mkdir /usr/local/tomcat/webapps/\$2" >> buildCode.sh
 RUN echo "mv ./dist/* /usr/local/tomcat/webapps/\$2" >> buildCode.sh
 RUN echo "/usr/local/tomcat/bin/startup.sh" >> buildCode.sh
@@ -24,10 +24,10 @@ RUN echo "/usr/local/tomcat/bin/startup.sh" >> buildCode.sh
 ENV GIT_URL https://github.com/HsunTsai/react-startkit-domain-directory
 ENV APP_NAME react-startkit-domain-directory
 ENV BRANCH master
-ENV DEPLOY_SCRIPT 'npm run deploy'
+ENV DEPLOY_PARAM ''
 
 # 執行sh 透過外部參數執行下載原始碼及打包 並於執行後維持啟動狀態不關閉
-CMD cat buildCode.sh && bash buildCode.sh $GIT_URL $APP_NAME $BRANCH $DEPLOY_SCRIPT && sleep infinity
+CMD bash  buildCode.sh $GIT_URL $APP_NAME $BRANCH $DEPLOY_PARAM && sleep infinity
 
 # docker build -t dlri093/docker-web-auto-build:latest -t dlri093/docker-web-auto-build:0.0.1 .
 # docker push dlri093/docker-web-auto-build
