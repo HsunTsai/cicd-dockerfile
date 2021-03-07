@@ -1,5 +1,7 @@
 FROM dlri093/tomcat8-node10
 
+ENV DEPLOY_PARAM ""
+
 # 強行修改DNS
 WORKDIR /etc
 RUN echo "nameserver 8.8.8.8" > resolv.conf.override
@@ -15,7 +17,7 @@ RUN echo "git clone \$1 \$2 -b \$3" > buildCode.sh
 RUN echo "cp /etc/resolv.conf.override /etc/resolv.conf" >> buildCode.sh
 RUN echo "cd \$2" >> buildCode.sh
 RUN echo "npm install --silent" >> buildCode.sh
-RUN echo "npm run deploy" >> buildCode.sh
+RUN echo "npm run deploy$DEPLOY_PARAM" >> buildCode.sh
 RUN echo "mkdir /usr/local/tomcat/webapps/\$2" >> buildCode.sh
 RUN echo "mv ./dist/* /usr/local/tomcat/webapps/\$2" >> buildCode.sh
 RUN echo "/usr/local/tomcat/bin/startup.sh" >> buildCode.sh
@@ -26,7 +28,7 @@ ENV APP_NAME react-startkit-domain-directory
 ENV BRANCH master
 
 # 執行sh 透過外部參數執行下載原始碼及打包 並於執行後維持啟動狀態不關閉
-CMD bash buildCode.sh $GIT_URL $APP_NAME $BRANCH && sleep infinity
+CMD bash buildCode.sh $GIT_URL $APP_NAME $BRANCH $DEPLOY_PARAM && sleep infinity
 
 # docker build -t dlri093/docker-web-auto-build:latest -t dlri093/docker-web-auto-build:0.0.1 .
 # docker push dlri093/docker-web-auto-build
