@@ -31,3 +31,5 @@ dockerfileName=$(<name)
 docker build -t $dockerfileName:$newVersion -t $dockerfileName:latest .
 docker push $dockerfileName:latest
 docker push $dockerfileName:$newVersion
+
+# sleep 10
