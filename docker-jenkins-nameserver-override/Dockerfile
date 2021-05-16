@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.281
+FROM jenkins/jenkins:2.286
 USER root
 
 # 強行修改DNS
