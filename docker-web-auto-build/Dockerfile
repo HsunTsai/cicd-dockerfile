@@ -1,4 +1,4 @@
-FROM dlri093/tomcat8-node12
+FROM dlri093/tomcat8-node10
 
 # 強行修改DNS
 WORKDIR /etc
